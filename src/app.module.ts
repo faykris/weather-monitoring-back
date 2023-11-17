@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthController } from './auth/auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScheduleModule } from '@nestjs/schedule';
 import {
   BaseSensorModel,
 } from './models/sensor.model';
@@ -19,6 +20,7 @@ dotenv.config();
     MongooseModule.forFeature([
       { name: 'sensors', schema: BaseSensorModel },
     ]),
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController, AuthController],
   providers: [AppService],
