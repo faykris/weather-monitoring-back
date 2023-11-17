@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { AppService } from './app.service';
 import { BaseSensorDocument } from './models/sensor.model';
 
@@ -25,5 +25,10 @@ export class AppController {
   @Get('get-all-sensors')
   async findAll(): Promise<BaseSensorDocument[]> {
     return this.appService.findAll();
+  }
+
+  @Post('sensor/:sensorId')
+  async addData(@Param('sensorId') sensorId: number, @Body() dataEntry: Record<string, any>): Promise<BaseSensorDocument> {
+    return this.appService.addData(sensorId, dataEntry);
   }
 }

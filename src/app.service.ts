@@ -19,4 +19,12 @@ export class AppService {
     const sensors = await this.baseSensorModel.find();
     return sensors;
   }
+
+  async addData(sensorId: number, dataEntry: Record<string, any>): Promise<BaseSensorDocument> {
+    return this.baseSensorModel.findOneAndUpdate(
+      { sensor_id: sensorId },
+      { $push: { data: dataEntry } },
+      { new: true },
+    );
+  }
 }
