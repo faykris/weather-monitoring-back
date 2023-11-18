@@ -6,8 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "heroku-postbuild": "npm cache clean --force && rm -rf node_modules && npm install && npm install -g @nestjs/cli && npm install --save-dev @types/node @nestjs/platform-socket.io && ls -l node_modules | grep '^d' && npm run build",
-    "build": "nest build",
+    "build": "ls",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
