@@ -8,7 +8,10 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'https://weather-monitoring-front.netlify.app', // Reemplaza con el origen de tu frontend
+    credentials: true,
+  });
 
   app.use(function (request, response, next) {
     response.header("Access-Control-Allow-Origin", "*");
@@ -19,6 +22,6 @@ async function bootstrap() {
   app.useWebSocketAdapter(new WsAdapter(app));
 
   await app.listen(process.env.PORT || 3000);
-  
+
 }
 bootstrap();

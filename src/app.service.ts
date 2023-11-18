@@ -3,16 +3,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AppGateway } from './app.gateway';
-import {
-  BaseSensorDocument,
-} from './models/sensor.model';
+import { io, Socket } from 'socket.io-client';
+import { BaseSensorDocument } from './models/sensor.model';
 
 @Injectable()
 export class AppService {
+
+  private socket: Socket;
+
   constructor(
     @InjectModel('sensors') private readonly baseSensorModel: Model<BaseSensorDocument>,
     private readonly appGateway: AppGateway
-  ) {}
+  ) {
+    this.socket = io('https://weather-monitoring-back.herokuapp.com', {
+      withCredentials: true,
+    });
+  }
 
   getHello(): string {
     return 'Hello sensors!';

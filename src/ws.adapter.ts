@@ -7,4 +7,5 @@ export class WsAdapter extends IoAdapter {
     const server = super.createIOServer(port, { ...options, cors: { origin: 'https://weather-monitoring-front.netlify.app', methods: ['GET', 'POST', 'PUT', 'DELETE'] } });
     return server;
   }
+  
 }
