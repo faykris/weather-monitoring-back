@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { AuthController } from './auth/auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AppGateway } from './app.gateway';
 import {
   BaseSensorModel,
 } from './models/sensor.model';
@@ -23,6 +24,6 @@ dotenv.config();
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController, AuthController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

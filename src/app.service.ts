@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { AppGateway } from './app.gateway';
 import {
   BaseSensorDocument,
 } from './models/sensor.model';
@@ -9,7 +10,8 @@ import {
 @Injectable()
 export class AppService {
   constructor(
-    @InjectModel('sensors') private readonly baseSensorModel: Model<BaseSensorDocument>
+    @InjectModel('sensors') private readonly baseSensorModel: Model<BaseSensorDocument>,
+    private readonly appGateway: AppGateway
   ) {}
 
   getHello(): string {
@@ -34,7 +36,7 @@ export class AppService {
     const currentTime = new Date().toISOString();
     const sensor1Id = 1;
     const sensor2Id = 2;
-    const sensor3Id = 2;
+    const sensor3Id = 3;
 
     const newSensor1Record = {
       timestamp: currentTime,
@@ -59,6 +61,8 @@ export class AppService {
     await this.addData(sensor3Id, newSensor3Record);
 
     console.log(`Cron job executed at ${currentTime}`);
+    const updateMessage = 'El cron job se está ejecutando...';
+    this.appGateway.handleCronJobUpdate(updateMessage);
   }
 
   private getRandomValue(min: number, max: number): number {
