@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-// import { AppGateway } from './app.gateway';
+import { AppGateway } from './app.gateway';
 import {
   BaseSensorDocument,
 } from './models/sensor.model';
@@ -11,7 +11,7 @@ import {
 export class AppService {
   constructor(
     @InjectModel('sensors') private readonly baseSensorModel: Model<BaseSensorDocument>,
-   // private readonly appGateway: AppGateway
+    private readonly appGateway: AppGateway
   ) {}
 
   getHello(): string {
@@ -62,7 +62,7 @@ export class AppService {
 
     console.log(`Cron job executed at ${currentTime}`);
     const updateMessage = 'El cron job se está ejecutando...';
-    // this.appGateway.handleCronJobUpdate(updateMessage);
+    this.appGateway.handleCronJobUpdate(updateMessage);
   }
 
   private getRandomValue(min: number, max: number): number {

@@ -1,4 +1,4 @@
-/*
+
 import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 
@@ -11,4 +11,3 @@ export class AppGateway {
     this.server.emit('cronJobUpdate', data);
   }
 }
-*/
