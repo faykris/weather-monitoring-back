@@ -37,6 +37,18 @@ export class AppService {
     );
   }
 
+  async depurateData(sensorId: number, dataEntry: Record<string, any>): Promise<BaseSensorDocument> {
+    return this.baseSensorModel.findOneAndUpdate(
+      { sensor_id: sensorId },
+      { $set: { data: this.obtainLastRecords(dataEntry, 10) } },
+    );
+  }
+
+  obtainLastRecords(array, quantity) {
+    quantity = Math.max(0, quantity);
+    return array.slice(-quantity);
+  }
+
   @Cron("0 */15 * * * *")
   async handleCron() {
     const currentTime = new Date().toISOString();
@@ -62,12 +74,23 @@ export class AppService {
       air_quality: this.getRandomString(["Buena", "Moderada", "Mala"])
     };
     
-    await this.addData(sensor1Id, newSensor1Record);
-    await this.addData(sensor2Id, newSensor2Record);
-    await this.addData(sensor3Id, newSensor3Record);
+    let sensor1 = await this.addData(sensor1Id, newSensor1Record);
+    let sensor2 = await this.addData(sensor2Id, newSensor2Record);
+    let sensor3 = await this.addData(sensor3Id, newSensor3Record);
 
-    console.log(`Cron job executed at ${currentTime}`);
-    const updateMessage = 'El cron job se está ejecutando...';
+    if (sensor1.data.length > 10) {
+      await this.depurateData(sensor1Id, sensor1.data);
+    }
+
+    if (sensor2.data.length > 10) {
+      await this.depurateData(sensor2Id, sensor2.data);
+    }
+
+    if (sensor3.data.length > 10) {
+      await this.depurateData(sensor3Id, sensor3.data);
+    }
+
+    const updateMessage = `Cron job executed at ${currentTime}`;
     this.appGateway.handleCronJobUpdate(updateMessage);
   }
 
