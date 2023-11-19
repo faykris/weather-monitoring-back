@@ -49,7 +49,7 @@ export class AppService {
     return array.slice(-quantity);
   }
 
-  @Cron("0 */15 * * * *")
+  @Cron("0 */5 * * * *")
   async handleCron() {
     const currentTime = new Date().toISOString();
     const sensor1Id = 1;
