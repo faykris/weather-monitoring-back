@@ -44,7 +44,7 @@ Correct output:
 ### Add sensor record
 Insert a new record in a specified sensor
 ```json
-POST /seonsor/:sensorId
+POST /sensor/:sensorId
 Accept: application/json
 Content-Type: application/json
 ```
