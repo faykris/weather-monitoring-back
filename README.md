@@ -1,73 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Weather Monitoring (Backend)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![Browse query](./images/get-all-sensors.jpg)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Deployed project
+Yo can use this API with the url of [Vercel](https://weather-monitoring-back.vercel.app/). Exists the same API deployed on [Heroku](https://weather-monitoring-back-6e19852c45b2.herokuapp.com) and works much better, but this service is not free and it will be dismounted soon by the generated bill.
 
-## Description
+## Special recomendation
+Real time sending information only works with these deployed services, not in local environment beacuse CORS policy doen't allow the use of sockets.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+## Endpoints Usage
+### Get All Sensors
+Retrieves all current information about sensors and their records:
+```json
+GET /get-all-sensors
+Accept: application/json
+Content-Type: application/json
+```
+Correct output:
+```json
+[
+    {
+        "_id": "65558f6190f574b3b43f4d79",
+        "sensor_id": 1,
+        "sensor_name": "Sensor de Clima",
+        "data": [
+            {
+                "timestamp": "2023-09-26T08:00:00",
+                "temperature": 25.5,
+                "humidity": 60.2
+            },
+            {
+                "timestamp": "2023-09-26T08:15:00",
+                "temperature": 25.9,
+                "humidity": 61
+            },
+            //  Others records
+        ]  
+    },
+    // Others Senosrs
+]
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### Add sensor record
+Insert a new record in a specified sensor
+```json
+POST /seonsor/:sensorId
+Accept: application/json
+Content-Type: application/json
 ```
 
-## Test
+Query param:
+- SensorId
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+Body:
+```json
+{
+    "timestamp": "2023-09-26T09:00:00",
+    "noise_level": 42.3,
+    "air_quality": "Mala"
+}
 ```
 
-## Support
+Correct output:
+```json
+{
+    "_id": "655597ad90f574b3b43f4d7b",
+    "sensor_id": 3,
+    "sensor_name": "Sensor Ambiental",
+    "data": [
+        // Previous records
+        {
+            "timestamp": "2023-09-26T09:00:00",
+            "noise_level": 42.3,
+            "air_quality": "Mala"
+        }
+    ]
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## limitations
+To the Frontend is not allowed the use of websocket in local environment, the CORS policy only works with deploted URL.
 
-## Stay in touch
+## Author
+- Cristian Pinzón - [My Portfolio](https://faykris-portfolio.netlify.app/)
+- Website - [Weather Monitoring](https://weather-monitoring-front.netlify.app/)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
