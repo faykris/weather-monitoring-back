@@ -10,9 +10,6 @@ Yo can use this API with the url of [Vercel](https://weather-monitoring-back.ver
 - Mongoose (MongoDB Atlas)
 - Cron job
 
-## Special recomendation
-Real time sending information only works with these deployed services, not in local environment beacuse CORS policy doen't allow the use of sockets.
-
 ## Endpoints Usage
 ### Get All Sensors
 Retrieves all current information about sensors and their records:
@@ -97,9 +94,8 @@ PORT=<Connection port(eg. 3000)>
 ## Cron job execution
 This automatic function allows insert new records in each sensor with randomly values and the same time depurate database in order to have maximum 10 records per sensor and fill the database with more that quantity, the final purpose is the user can see only that numbers of records in each graphic. The execution time until now is each 5 minutes, but later it will be delayed to 15 minutes and it disconnect service from Heroku to avoid billing in that site.
 
-
-## limitations
-To the Frontend is not allowed the use of websocket in local environment, the CORS policy only works with deploted URL.
+## Fixed Bugs
+Problem with CORS solved to connect websocket
 
 ## Author
 - Cristian Pinzón - [My Portfolio](https://faykris-portfolio.netlify.app/)
